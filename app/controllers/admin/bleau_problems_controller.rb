@@ -1,7 +1,7 @@
 class Admin::BleauProblemsController < Admin::BaseController
   def index
     # TODO: make this code DRY with bleau.rake
-    @bleau_problems = BleauProblem.joins(bleau_area: :area).where(ignore: false).
+    @bleau_problems = BleauProblem.left_outer_joins(bleau_area: :area).where(ignore: false).
       left_outer_joins(:problem).where(problems: { id: nil }).
       order("ascents DESC NULLS LAST, id ASC")
 

@@ -50,7 +50,11 @@ class BleauImportProblemJob < ApplicationJob
     bleau_problem.related_ids = related_ids
 
     # TODO: move to attributes
-    bleau_problem.bleau_area = BleauArea.find_by(slug: slug)
+    bleau_area = BleauArea.find_by(slug: slug)
+    if bleau_area.nil?
+      Rails.logger.warn "BleauArea not found for slug '#{slug}' (bleau_problem ##{id})"
+    end
+    bleau_problem.bleau_area = bleau_area
 
     attributes = {
       name: name,

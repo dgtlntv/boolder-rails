@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_12_192123) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_13_122427) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
@@ -59,7 +60,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_192123) do
     t.text "description_en"
     t.text "warning_fr"
     t.text "warning_en"
-    t.integer "bleau_area_id", null: false
+    t.integer "bleau_area_id"
     t.integer "cluster_id"
     t.index ["slug"], name: "index_areas_on_slug", unique: true
     t.index ["tags"], name: "index_areas_on_tags", using: :gin

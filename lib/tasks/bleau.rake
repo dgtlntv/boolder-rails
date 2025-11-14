@@ -13,6 +13,10 @@ namespace :bleau do
 
     areas.each do |area|
       bleau_area = area.bleau_area
+      unless bleau_area
+        puts "Skipping area #{area.name} (no bleau_area)"
+        next
+      end
 
       html = HTTParty.get("https://bleau.info/#{bleau_area.slug}").body
       doc = Nokogiri::HTML(html)
@@ -31,10 +35,15 @@ namespace :bleau do
 
   task promote: :environment do
     # TODO: make this code DRY with bleau_problems_controller.rb
-    bleau_problems = BleauProblem.joins(bleau_area: :area).where(ignore: false).
+    bleau_problems = BleauProblem.left_outer_joins(bleau_area: :area).where(ignore: false).
       left_outer_joins(:problem).where(problems: { id: nil })
 
     bleau_problems.uniq.each do |bleau_problem|
+      unless bleau_problem.bleau_area&.area
+        puts "Skipping bleau_problem_id=#{bleau_problem.id} (no area)"
+        next
+      end
+
       puts "Promoting bleau_problem_id=#{bleau_problem.id}"
 
       problem = Problem.new
@@ -126,7 +135,7 @@ namespace :bleau do
       csv << [ "area", "name", "grade", "ascents" ]
 
       bleau_problems.each do |bp|
-        csv << [ bp.bleau_area.name, bp.name, bp.grade, bp.ascents ]
+        csv << [ bp.bleau_area&.name || 'No area', bp.name, bp.grade, bp.ascents ]
       end
     end
 

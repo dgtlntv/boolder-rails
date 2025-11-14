@@ -1,5 +1,5 @@
 class BleauProblem < ApplicationRecord
-  belongs_to :bleau_area
+  belongs_to :bleau_area, optional: true
   has_one :problem, foreign_key: "bleau_info_id"
 
   # TODO: make DRY with problem.rb
