@@ -11,12 +11,14 @@ namespace :mapbox do
 
     Area.published.each do |area|
       result = area.boulders.where(ignore_for_area_hull: false).
-        select("st_buffer(st_convexhull(st_collect(polygon::geometry)),0.00007) as hull").to_a.first
+        select("st_buffer(st_convexhull(st_collect(polygon::geometry)),0.00007) as hull",
+               "st_centroid(st_buffer(st_convexhull(st_collect(polygon::geometry)),0.00007)) as centroid").to_a.first
       
       # Skip areas with no boulders
       next unless result&.hull
       
       hull = result.hull
+      centroid = result.centroid
 
       hash = {}.with_indifferent_access
       hash[:area_id] = area.id
@@ -38,7 +40,7 @@ namespace :mapbox do
       hash[:north_east_lat] = area.bounds[:north_east].lat.to_s
       hash[:north_east_lon] = area.bounds[:north_east].lon.to_s
       hash.deep_transform_keys! { |key| key.camelize(:lower) }
-      area_features << factory.feature(hull.centroid, nil, hash)
+      area_features << factory.feature(centroid, nil, hash)
     end
 
     feature_collection = factory.feature_collection(
