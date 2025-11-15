@@ -181,7 +181,7 @@ export default class extends Controller {
                 id: "problems",
                 type: "circle",
                 source: "problems",
-                "source-layer": "problems-ayes3a",
+                "source-layer": "problems-8pdvh4",
                 minzoom: 15,
                 layout: {
                     visibility: "visible",
@@ -303,7 +303,7 @@ export default class extends Controller {
             id: "problems-texts",
             type: "symbol",
             source: "problems",
-            "source-layer": "problems-ayes3a",
+            "source-layer": "problems-8pdvh4",
             minzoom: 19,
             layout: {
                 visibility: "visible",
