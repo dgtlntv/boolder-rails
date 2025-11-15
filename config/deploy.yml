@@ -2,7 +2,7 @@
 service: austrian-rocks
 
 # Name of the container image.
-image: dgtlntv/austrian.rocks
+image: dgtlntv/austrian-rocks
 
 # Deploy to these servers.
 servers:
