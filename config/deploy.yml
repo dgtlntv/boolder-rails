@@ -20,7 +20,7 @@ servers:
 # IMPORTANT: Update these domains to match your brand configuration in config/brand.rb
 proxy:
     ssl: true
-    host: www.austrian.rocks,austrian.rocks
+    host: www.austrian.rocks,austrian.rocks,assets.austrian.rocks
     # Proxy connects to your container on port 80 by default.
     # app_port: 3000
 
