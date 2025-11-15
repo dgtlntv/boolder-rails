@@ -82,8 +82,8 @@ ssh:
 
 # Use a persistent storage volume.
 #
-# volumes:
-#   - "app_storage:/rails/storage"
+volumes:
+  - "austrian_rocks_mapbox:/austrian-rocks-maps/mapbox"
 
 # Bridge fingerprinted assets, like JS and CSS, between versions to avoid
 # hitting 404 on in-flight requests. Combines all files from new and old
