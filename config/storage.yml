@@ -1,17 +1,25 @@
 test:
-  service: Disk
-  root: <%= Rails.root.join("tmp/storage") %>
+    service: Disk
+    root: <%= Rails.root.join("tmp/storage") %>
 
 local:
-  service: Disk
-  root: <%= Rails.root.join("storage") %>
+    service: Disk
+    root: <%= Rails.root.join("storage") %>
 
 amazon:
-  service: S3
-  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) || S3_READONLY_KEY %>
-  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) || S3_READONLY_SECRET %>
-  region: eu-west-1
-  bucket: boolder
+    service: S3
+    # Cloudflare R2 endpoint - replace <ACCOUNT_ID> with your Cloudflare account ID
+    # Find it at: https://dash.cloudflare.com/ -> R2 -> Settings
+    endpoint: https://1c3e0f0e5d0f66a5afb9722043fda60b.r2.cloudflarestorage.com
+    access_key_id:
+        <%= Rails.application.credentials.dig(:aws, :access_key_id) ||
+        S3_READONLY_KEY %>
+    secret_access_key:
+        <%= Rails.application.credentials.dig(:aws, :secret_access_key) ||
+        S3_READONLY_SECRET %>
+    region: auto # R2 uses 'auto' instead of specific region
+    bucket: austrian-rocks-data # Change this to your R2 bucket name
+    force_path_style: true # Required for R2 compatibility
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
